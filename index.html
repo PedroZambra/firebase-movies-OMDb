@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi cine</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-database.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Mis peliculas</h1>
+    </header>
+
+    <section id="info">
+        <input type="text" id="title" placeholder="titulo">
+        <input type="button" id="search" value="Buscar">
+        <input type="button" id="seeAllFilms" value="Mis peliculas">
+    </section>
+
+    <section id="films">
+
+    </section>
+
+    <footer>
+
+    </footer>
+
+    <!--MUSTACHE-->
+    <template id="template" type="x-tmpl-mustache">
+        <div class="film">
+            <h3>{{ title }}</h3>
+            <img src="{{img}}" class="movieImg" alt="Poster no disponible">
+            <input type="button" value="Me gusta" class="add">
+        </div>
+    </template>
+
+    <template id="template2" type="x-tmpl-mustache">
+        <div class="film">
+            <h3>{{ title }}</h3>
+            <img src="{{img}}" class="movieImg" alt="Poster no disponible">
+            <input type="button" value="Eliminar" class="delete">
+        </div>
+    </template>
+
+    <script src="https://unpkg.com/mustache@latest"></script>
+    <script type='text/javascript' src='js/config.js'></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
