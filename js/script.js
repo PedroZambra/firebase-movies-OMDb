@@ -25,14 +25,11 @@ function search() {
 
 //SEE ALL FILMS I LIKE
 function seeAllFilms() {
-    return new Promise((ok, no) => {
-        document.getElementById('films').innerHTML = '';
-        ref.on('value', snapshot => {
-            snapshot.forEach(childSnapshot => {
-                printFilm(childSnapshot.val(), 'template2');
-            });
-        })
-        ok();
+    document.getElementById('films').innerHTML = '';
+    ref.on('value', snapshot => {
+        snapshot.forEach(childSnapshot => {
+            printFilm(childSnapshot.val(), 'template2');
+        });
     })
 }
 
