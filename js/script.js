@@ -10,11 +10,27 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
 const ref = firebase.database().ref('films');
 
+const sectionFilms = document.getElementById('films');
+
 document.getElementById('search').addEventListener('click', search);
-document.getElementById('seeAllFilms').addEventListener('click', seeAllFilms);
+document.getElementById('seeAllFilms').addEventListener('click', () => {
+    seeAllFilms()
+    .then(data => {
+        let films = document.getElementsByClassName("delete");
+        let arrFilms = Array.from(films);
+        
+        var ids = [];
+        for (let id in data) {
+            ids.push(id);
+        }
+
+        for(let i=0; i<arrFilms.length; i++) {
+            films[i].addEventListener('click', () => deleteFilm(ids[i]));
+        }
+    })
+});
 
 //SEARCH FILMS
 function search() {
@@ -25,21 +41,24 @@ function search() {
 
 //SEE ALL FILMS I LIKE
 function seeAllFilms() {
-    document.getElementById('films').innerHTML = '';
-    ref.on('value', snapshot => {
-        snapshot.forEach(childSnapshot => {
-            printFilm(childSnapshot.val(), 'template2');
-        });
+    return new Promise((ok, no) => {
+        sectionFilms.innerHTML = '';
+        ref.on('value', snapshot => {
+            snapshot.forEach(childSnapshot => {
+                printFilm(childSnapshot.val(), 'template2');
+            });
+            ok(snapshot.val());
+        })
     })
 }
 
 function OMDbCall(title) {
-    document.getElementById('films').innerHTML = '';
+    sectionFilms.innerHTML = '';
 
     fetch(`http://www.omdbapi.com/?apikey=${config.API_KEY_OMDb}&s=${title}&page=1`)
     .then(res => res.json())
     .then(data => {
-        console.log(data.Search);
+        // console.log(data.Search);
         data.Search.forEach(film => {
             printFilm(film, 'template');
         });
@@ -56,18 +75,24 @@ function OMDbCall(title) {
 }
 
 function printFilm(film, template) {
-    let rendered = Mustache.render(document.getElementById(template).innerHTML,{film, title: film.Title, img:film.Poster});
-    document.getElementById('films').innerHTML += rendered;
+    let rendered = Mustache.render(document.getElementById(template).innerHTML,{film, Title: film.Title, img:film.Poster});
+    sectionFilms.innerHTML += rendered;
 }
 
 //ADD FILM
 function addFilm(film) {
     ref.push({
-        title: film.Title,
+        Title: film.Title,
         year: film.Year,
         imdbID: film.imdbID,
         Poster: film.Poster
     })
+    sectionFilms.innerText = 'Añadida '+film.Title+'!';
 }
 
+//DELETE FILM
+function deleteFilm(id) {
+    ref.child(id).remove();
+    sectionFilms.innerText = 'Eliminada!';
+}
 

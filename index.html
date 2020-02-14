@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi cine</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-database.js"></script>
 </head>
@@ -14,9 +15,11 @@
     </header>
 
     <section id="info">
-        <input type="text" id="title" placeholder="titulo">
-        <input type="button" id="search" value="Buscar">
-        <input type="button" id="seeAllFilms" value="Mis peliculas">
+        <div>
+            <input type="text" id="title" placeholder="Introduce el titulo o saga">
+            <input type="button" id="search" value="Buscar">
+        </div>
+        <input type="button" id="seeAllFilms" value="Mostrar mis peliculas">
     </section>
 
     <section id="films">
@@ -24,13 +27,13 @@
     </section>
 
     <footer>
-
+        
     </footer>
 
     <!--MUSTACHE-->
     <template id="template" type="x-tmpl-mustache">
         <div class="film">
-            <h3>{{ title }}</h3>
+            <h3>{{ Title }}</h3>
             <img src="{{img}}" class="movieImg" alt="Poster no disponible">
             <input type="button" value="Me gusta" class="add">
         </div>
@@ -38,7 +41,7 @@
 
     <template id="template2" type="x-tmpl-mustache">
         <div class="film">
-            <h3>{{ title }}</h3>
+            <h3>{{ Title }}</h3>
             <img src="{{img}}" class="movieImg" alt="Poster no disponible">
             <input type="button" value="Eliminar" class="delete">
         </div>
