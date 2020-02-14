@@ -20,13 +20,33 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
 
     margin: 25px 0;
 }
 
 #info input {
     margin: 5px;
+}
+
+#registerPanel, #loginPanel, #searchPanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+    margin: 15px 20px;
+}
+
+#user, #pass, #userLogin, #passLogin {
+    width: 200px;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+}
+
+#out {
+    display: none;
 }
 
 #films {

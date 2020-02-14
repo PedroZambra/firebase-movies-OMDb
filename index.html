@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-auth.js"></script>
 </head>
 <body>
     <header>
@@ -15,11 +16,24 @@
     </header>
 
     <section id="info">
-        <div>
+        <div id="registerPanel">
+            <h3>Register</h3>
+            <input type="text" name="" id="user" placeholder="Usuario">
+            <input type="password" name="" id="pass" placeholder="Contraseña">
+            <input type="submit" id="register" value="Enviar" >
+        </div>
+        <div id="loginPanel">
+            <h3>Login</h3>
+            <input type="text" name="" id="userLogin" placeholder="Usuario">
+            <input type="password" name="" id="passLogin" placeholder="Contraseña">
+            <input type="submit" id="login" value="Enviar" >
+        </div>
+        <input type="button" value="Salir" id="out">
+        <div id="searchPanel">
             <input type="text" id="title" placeholder="Introduce el titulo o saga">
             <input type="button" id="search" value="Buscar">
+            <input type="button" id="seeAllFilms" value="Mostrar mis peliculas">
         </div>
-        <input type="button" id="seeAllFilms" value="Mostrar mis peliculas">
     </section>
 
     <section id="films">
