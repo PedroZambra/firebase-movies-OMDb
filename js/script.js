@@ -156,17 +156,47 @@ firebase.auth().onAuthStateChanged( user => {
         var providerData = user.providerData;
 
         sectionFilms.innerHTML = "Bienvenido "+ email;
-        document.getElementById('out').style.display = 'block';
-        document.getElementById('registerPanel').style.display = 'none';
-        document.getElementById('loginPanel').style.display = 'none';
-        document.getElementById('searchPanel').style.display = 'flex';
+        document.getElementById('logPanel').style.display = 'none';
+        document.getElementById('userPanel').style.display = 'flex';
     } else {
         console.log("User is signed out");
-        document.getElementById('out').style.display = 'none';
-        document.getElementById('registerPanel').style.display = 'flex';
-        document.getElementById('loginPanel').style.display = 'flex';
-        document.getElementById('searchPanel').style.display = 'none';
+        document.getElementById('logPanel').style.display = 'flex';
+        document.getElementById('userPanel').style.display = 'none';
         sectionFilms.innerHTML = '';
     }
 });
 
+//UPLOAD FILES
+
+document.getElementById("uploadFiles").addEventListener('click', uploadFiles);
+document.getElementById("downloadFiles").addEventListener('click', downloadFiles);
+
+function uploadFiles() {
+    const storageRef = firebase.storage().ref();
+    var ref = storageRef.child(firebase.auth().currentUser.uid+'/images/starwars.jpg');
+    var image = document.getElementById('file').files[0];
+    ref.put(image)
+    .then(snap => {console.log("Imagen subida ", snap)});
+}
+
+function downloadFiles() {
+    const storageRef = firebase.storage().ref();
+    storageRef.child(firebase.auth().currentUser.uid+'/images/starwars.jpg')
+    .getDownloadURL()
+    .then(url => {
+        document.getElementById('films').innerHTML =    `<div>
+                                                            <img src="${url}">
+                                                            <input id="deleteImage" value="Borrar">
+                                                        </div>`;
+        return url;
+    }).then(() => {document.getElementById("deleteImage").addEventListener('click', deleteImage);})
+    .catch(err => console.log(err));
+}
+
+function deleteImage() {
+    const storageRef = firebase.storage().ref();
+    var desertRef = storageRef.child(firebase.auth().currentUser.uid+'/images/starwars.jpg');
+    desertRef.delete()
+    .then(() => {document.getElementById('films').innerText = "Imagen borrada!";})
+    .catch(err => console.log(err));
+}

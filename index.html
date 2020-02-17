@@ -9,30 +9,38 @@
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-storage.js"></script>
 </head>
 <body>
     <header>
         <h1>Mis peliculas</h1>
     </header>
 
-    <section id="info">
-        <div id="registerPanel">
+    <section class="info" id="logPanel">
+        <div class="panel">
             <h3>Register</h3>
             <input type="text" name="" id="user" placeholder="Usuario">
             <input type="password" name="" id="pass" placeholder="Contraseña">
             <input type="submit" id="register" value="Enviar" >
         </div>
-        <div id="loginPanel">
+        <div class="panel">
             <h3>Login</h3>
             <input type="text" name="" id="userLogin" placeholder="Usuario">
             <input type="password" name="" id="passLogin" placeholder="Contraseña">
             <input type="submit" id="login" value="Enviar" >
         </div>
+    </section>    
+    <section class="info" id="userPanel">
         <input type="button" value="Salir" id="out">
-        <div id="searchPanel">
+        <div class="panel">
             <input type="text" id="title" placeholder="Introduce el titulo o saga">
             <input type="button" id="search" value="Buscar">
             <input type="button" id="seeAllFilms" value="Mostrar mis peliculas">
+        </div>    
+        <div class="panel">
+            <input type="file" name="" id="file" accept="image/x-png,image/gif,image/jpeg">
+            <input type="button" id="uploadFiles" value="Subir archivos">
+            <input type="button" id="downloadFiles" value="Mostrar mis imagenes">
         </div>
     </section>
 

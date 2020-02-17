@@ -16,7 +16,9 @@ header {
     font-variant: small-caps;
 }
 
-#info {
+/* LOGIN USER SECTIONS */
+
+.info {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,11 +27,11 @@ header {
     margin: 25px 0;
 }
 
-#info input {
+.info input {
     margin: 5px;
 }
 
-#registerPanel, #loginPanel, #searchPanel {
+.panel {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,9 +47,11 @@ header {
     outline: none;
 }
 
-#out {
+#userPanel {
     display: none;
 }
+
+/* SHOW DATA */
 
 #films {
     display: flex;
