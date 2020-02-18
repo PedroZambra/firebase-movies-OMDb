@@ -57,7 +57,6 @@ function OMDbCall(title) {
     fetch(`http://www.omdbapi.com/?apikey=${config.API_KEY_OMDb}&s=${title}&page=1`)
     .then(res => res.json())
     .then(data => {
-        // console.log(data.Search);
         data.Search.forEach(film => {
             printFilm(film, 'template');
         });
@@ -104,58 +103,37 @@ function register() {
     let user = document.getElementById('user').value;
     let pass = document.getElementById('pass').value;
 
-    firebase.auth().createUserWithEmailAndPassword(user, pass)
-    .then(() => {
-        console.log("Usuario registrado");
-    })
-    .catch(error => {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        
-        alert(errorMessage);
-    });
+    firebase
+    .auth()
+    .createUserWithEmailAndPassword(user, pass)
+    .then(() => console.log("Usuario registrado"))
+    .catch(error => alert(error.message));
 }
 
 function login() {
     let user = document.getElementById('userLogin').value;
     let pass = document.getElementById('passLogin').value;
 
-    firebase.auth().signInWithEmailAndPassword(user, pass)
-    .then(() => {
-        console.log("Logueado");
-    })
-    .catch(error => {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        
-        alert(errorMessage);
-    });
+    firebase
+    .auth()
+    .signInWithEmailAndPassword(user, pass)
+    .then(() => console.log("Logueado"))
+    .catch(error => alert(error.message));
 }
 
 function logOut() {
-    firebase.auth().signOut()
-    .then(() => {
-        console.log("Deslogueado!");
-    })
-    .catch(err => {
-        console.log(err);
-    })
+    firebase
+    .auth()
+    .signOut()
+    .then(() => console.log("Deslogueado!"))
+    .catch(err => console.log(err))
 }
 
-firebase.auth().onAuthStateChanged( user => {
+firebase
+.auth()
+.onAuthStateChanged( user => {
     if (user) {
-        // User is signed in.
-        var displayName = user.displayName;
-        var email = user.email;
-        var emailVerified = user.emailVerified;
-        var photoURL = user.photoURL;
-        var isAnonymous = user.isAnonymous;
-        var uid = user.uid;
-        var providerData = user.providerData;
-
-        sectionFilms.innerHTML = "Bienvenido "+ email;
+        sectionFilms.innerHTML = "Bienvenido "+ user.email;
         document.getElementById('logPanel').style.display = 'none';
         document.getElementById('userPanel').style.display = 'flex';
     } else {
@@ -173,30 +151,37 @@ document.getElementById("downloadFiles").addEventListener('click', downloadFiles
 
 function uploadFiles() {
     const storageRef = firebase.storage().ref();
-    var ref = storageRef.child(firebase.auth().currentUser.uid+'/images/starwars.jpg');
-    var image = document.getElementById('file').files[0];
-    ref.put(image)
-    .then(snap => {console.log("Imagen subida ", snap)});
+    let image = document.getElementById('file').files[0];
+    let ref = storageRef.child(firebase.auth().currentUser.uid+'/images/'+image.name);
+
+    ref
+    .put(image)
+    .then(snap => console.log("Imagen subida ", snap));
 }
 
 function downloadFiles() {
+    sectionFilms.innerHTML = '';
     const storageRef = firebase.storage().ref();
-    storageRef.child(firebase.auth().currentUser.uid+'/images/starwars.jpg')
+    let ref = storageRef.child(firebase.auth().currentUser.uid+'/images/starwars.jpg');
+
+    ref
     .getDownloadURL()
     .then(url => {
-        document.getElementById('films').innerHTML =    `<div>
-                                                            <img src="${url}">
-                                                            <input id="deleteImage" value="Borrar">
-                                                        </div>`;
-        return url;
-    }).then(() => {document.getElementById("deleteImage").addEventListener('click', deleteImage);})
+        sectionFilms.innerHTML +=    `<div>
+                                        <img src="${url}">
+                                        <input type="button" id="deleteImage" value="Borrar">
+                                    </div>`;
+    })
+    .then(() => {document.getElementById("deleteImage").addEventListener('click', deleteImage);})
     .catch(err => console.log(err));
 }
 
 function deleteImage() {
     const storageRef = firebase.storage().ref();
-    var desertRef = storageRef.child(firebase.auth().currentUser.uid+'/images/starwars.jpg');
-    desertRef.delete()
-    .then(() => {document.getElementById('films').innerText = "Imagen borrada!";})
+    let ref = storageRef.child(firebase.auth().currentUser.uid+'/images/starwars.jpg');
+
+    ref
+    .delete()
+    .then(() => {sectionFilms.innerText = "Imagen borrada!";})
     .catch(err => console.log(err));
 }
