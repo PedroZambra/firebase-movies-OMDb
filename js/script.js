@@ -152,6 +152,7 @@ document.getElementById("downloadFiles").addEventListener('click', downloadFiles
 function uploadFiles() {
     const storageRef = firebase.storage().ref();
     let image = document.getElementById('file').files[0];
+    console.log(image);
     let ref = storageRef.child(firebase.auth().currentUser.uid+'/images/'+image.name);
 
     ref
@@ -162,18 +163,24 @@ function uploadFiles() {
 function downloadFiles() {
     sectionFilms.innerHTML = '';
     const storageRef = firebase.storage().ref();
-    let ref = storageRef.child(firebase.auth().currentUser.uid+'/images/starwars.jpg');
+    let ref = storageRef.child(firebase.auth().currentUser.uid+'/images/');
 
     ref
-    .getDownloadURL()
-    .then(url => {
-        sectionFilms.innerHTML +=    `<div>
-                                        <img src="${url}">
-                                        <input type="button" id="deleteImage" value="Borrar">
-                                    </div>`;
+    .listAll()
+    .then(res => {
+        res.items.forEach(img => {
+            img
+            .getDownloadURL() 
+            .then(url => {
+                    sectionFilms.innerHTML +=    `<div>
+                                                    <img src="${url}">
+                                                    <input type="button" id="deleteImage" value="Borrar">
+                                                </div>`;
+                })
+            .then() //Crear evento para borrar    
+            .catch(err => console.log(err));    
+        })
     })
-    .then(() => {document.getElementById("deleteImage").addEventListener('click', deleteImage);})
-    .catch(err => console.log(err));
 }
 
 function deleteImage() {
