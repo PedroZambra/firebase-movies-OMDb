@@ -14,6 +14,7 @@ firebase.initializeApp(firebaseConfig);
 const sectionFilms = document.getElementById('films');
 
 document.getElementById('search').addEventListener('click', search);
+document.getElementById('title').addEventListener('keyup', event => {(event.keyCode === 13) ? search() : null});
 document.getElementById('seeAllFilms').addEventListener('click', () => {
     seeAllFilms()
     .then(data => {
@@ -40,13 +41,13 @@ function search() {
 
 //SEE ALL FILMS I LIKE
 function seeAllFilms() {
-    return new Promise((ok, no) => {
+    return new Promise((resolve, reject) => {
         sectionFilms.innerHTML = '';
         firebase.database().ref(firebase.auth().currentUser.uid).on('value', snapshot => {
             snapshot.forEach(childSnapshot => {
                 printFilm(childSnapshot.val(), 'template2');
             });
-            ok(snapshot.val());
+            resolve(snapshot.val());
         })
     })
 }
@@ -133,7 +134,7 @@ firebase
 .auth()
 .onAuthStateChanged( user => {
     if (user) {
-        sectionFilms.innerHTML = "Bienvenido "+ user.email;
+        sectionFilms.innerHTML = `<h2 class="welcome">Bienvenido ${user.email}!</h2>`;
         document.getElementById('logPanel').style.display = 'none';
         document.getElementById('userPanel').style.display = 'flex';
     } else {
@@ -145,7 +146,6 @@ firebase
 });
 
 //UPLOAD FILES
-
 document.getElementById("uploadFiles").addEventListener('click', uploadFiles);
 document.getElementById("downloadFiles").addEventListener('click', downloadFiles);
 
@@ -157,7 +157,7 @@ function uploadFiles() {
 
     ref
     .put(image)
-    .then(snap => console.log("Imagen subida ", snap));
+    .then(() => downloadFiles());
 }
 
 function downloadFiles() {
@@ -172,23 +172,33 @@ function downloadFiles() {
             img
             .getDownloadURL() 
             .then(url => {
-                    sectionFilms.innerHTML +=    `<div>
-                                                    <img src="${url}">
-                                                    <input type="button" id="deleteImage" value="Borrar">
+                    sectionFilms.innerHTML +=   `<div data-key="${img.name}" class="upload">
+                                                    <img src="${url}" class="imgUploaded">
+                                                    <input type="button" data-action="deleteImg" value="Borrar">
                                                 </div>`;
-                })
-            .then() //Crear evento para borrar    
+                })  
             .catch(err => console.log(err));    
         })
     })
 }
 
-function deleteImage() {
-    const storageRef = firebase.storage().ref();
-    let ref = storageRef.child(firebase.auth().currentUser.uid+'/images/starwars.jpg');
+sectionFilms.addEventListener('click', event => {
+    const target = event.target.getAttribute("data-action");
+    const key = event.target.parentElement.getAttribute("data-key");
+    if(target === "deleteImg") {
+        deleteImage(key);
+    }
+})
 
-    ref
-    .delete()
-    .then(() => {sectionFilms.innerText = "Imagen borrada!";})
-    .catch(err => console.log(err));
+function deleteImage(name) {
+    if(confirm("¿Estas seguro?")) {
+        const storageRef = firebase.storage().ref();
+        let ref = storageRef.child(firebase.auth().currentUser.uid+'/images/'+name);
+    
+        ref
+        .delete()
+        .then(() => {sectionFilms.innerText =`Imagen ${name} borrada!`;})
+        .catch(err => console.log(err));
+    }
 }
+

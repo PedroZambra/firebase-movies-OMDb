@@ -6,6 +6,8 @@
     <title>Mi cine</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+    <!-- FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-auth.js"></script>
@@ -32,26 +34,25 @@
     </section>    
     
     <section class="info" id="userPanel">
-        <input type="button" value="Salir" id="out">
-        <div class="panel">
+        <div class="panel2">
             <input type="text" id="title" placeholder="Introduce el titulo o saga">
             <input type="button" id="search" value="Buscar">
-            <input type="button" id="seeAllFilms" value="Mostrar mis peliculas">
+            <input type="button" id="seeAllFilms" value="Mis peliculas">
         </div>    
-        <div class="panel">
-            <input type="file" name="" id="file" accept="image/x-png,image/gif,image/jpeg">
-            <input type="button" id="uploadFiles" value="Subir archivos">
-            <input type="button" id="downloadFiles" value="Mostrar mis imagenes">
+        <div class="panel2">
+            <div id="fileZone">
+                <button>Seleccionar imagen</button>
+                <input type="file" name="" id="file" accept="image/x-png,image/gif,image/jpeg">
+            </div>
+            <input type="button" id="uploadFiles" value="Subir imagen">
+            <input type="button" id="downloadFiles" value="Mis imagenes">
         </div>
+        <input type="button" value="Salir" id="out">
     </section>
 
     <section id="films">
 
     </section>
-
-    <footer>
-        
-    </footer>
 
     <!--MUSTACHE-->
     <template id="template" type="x-tmpl-mustache">
@@ -71,7 +72,7 @@
     </template>
 
     <script src="https://unpkg.com/mustache@latest"></script>
-    <script type='text/javascript' src='js/config.js'></script>
+    <script src='js/config.js'></script>
     <script src="js/script.js"></script>
 </body>
 </html>

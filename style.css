@@ -27,6 +27,7 @@ header {
 
 .info input {
     margin: 5px;
+    padding: 5px;
 }
 
 #logPanel {
@@ -42,6 +43,46 @@ header {
     margin: 15px 20px;
 }
 
+.panel2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    margin: 10px 5vw;
+}
+
+#title {
+    outline: none;
+}
+
+#title, #search {
+    margin: 0;
+}
+
+#fileZone {
+    position: relative;
+    height: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#fileZone button {
+    padding: 5px;
+}
+
+#file {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
 #user, #pass, #userLogin, #passLogin {
     width: 200px;
     border: none;
@@ -51,6 +92,10 @@ header {
 
 #userPanel {
     display: none;
+}
+
+.welcome {
+    margin-top: 20vh;
 }
 
 /* SHOW DATA */
@@ -82,4 +127,18 @@ header {
     width: 300px;
     height: 400px;
     margin: 10px 0;
+}
+
+/* UPLOAD FILES */
+
+.upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.imgUploaded {
+    padding: 10px;
+    max-width: 400px;
 }
